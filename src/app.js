@@ -18,6 +18,19 @@ app.use(cors({
   credentials: true // Allow cookies to be sent with requests
 }));
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
+  res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  
+  // Intercept OPTIONS method
+  if (req.method === 'OPTIONS') {
+    res.sendStatus(200);
+  } else {
+    next();
+  }
+});
+
 app.use("/api/users", userRouter);
 app.use("/api/posts",postRouter);
 export default app;
