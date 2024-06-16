@@ -356,7 +356,7 @@ const UserProfileImage=async(req,res)=>{
                 let profileLocalPath=req.file.path;
                 const profile=await uploadOnCloudinary(profileLocalPath);
                 console.log(profile);
-                let profileImage=profile.url;
+                let profileImage=profile.secure_url;
                const user=await User.findByIdAndUpdate(decodedToken._id,{profileImage},{new:true});
                return res.status(200).send("profile image uploade succssfully");
             }
@@ -381,7 +381,7 @@ const UserCoverImage=async(req,res)=>{
                 let coverLocalPath=req.file.path;
                 const cover=await uploadOnCloudinary(coverLocalPath);
                 console.log(cover);
-                let coverImage=cover.url;
+                let coverImage=cover.secure_url;
                const user=await User.findByIdAndUpdate(decodedToken._id,{coverImage},{new:true});
                return res.status(200).send("cover image uploade succssfully");
             }
