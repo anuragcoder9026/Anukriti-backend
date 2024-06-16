@@ -132,7 +132,7 @@ const PostCoverImage=async(req,res)=>{
               let coverLocalPath=req.file.path;
               const cover=await uploadOnCloudinary(coverLocalPath);
               console.log(cover);
-              let coverImage=cover.url;
+              let coverImage=cover.secure_url;
              const post=await Post.findByIdAndUpdate(postId,{coverImage},{new:true});
              return res.status(200).send("cover image uploade succssfully");
           }
@@ -154,7 +154,7 @@ const publishPost=async(req,res)=>{
   if (!user) return res.status(404).json({ message: 'User not found' });
   let coverLocalPath=req.file.path;
   const cover=await uploadOnCloudinary(coverLocalPath);
-  let coverImage=cover.url;
+  let coverImage=cover.secure_url;
   if(seriesTitle==='Not a Series'){
         if(postId){
          const updatedPost=await Post.findByIdAndUpdate(postId, {title,content,postUser,summary,coverImage}, { new: true });
