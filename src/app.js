@@ -13,13 +13,13 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 app.use(cors({
-  origin: 'http://localhost:5173', // Update with your React app's URL
+  origin: 'https://anuragcoder9026.github.io', // Update with your React app's URL
   methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
   credentials: true // Allow cookies to be sent with requests
 }));
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:5173'); // Replace with your frontend URL
+  res.header('Access-Control-Allow-Origin', 'https://anuragcoder9026.github.io'); // Replace with your frontend URL
   res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   
