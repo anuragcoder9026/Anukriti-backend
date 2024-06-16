@@ -194,32 +194,34 @@ const setAbout=async(req,res)=>{
 //get profile
 const getProfile=async (req,res)=>{
     const token = req.cookies.accessToken;
+    console.log("signup token:",token);
     const username=req.params.username;
    if (token) {
     const decodedToken = jwt.verify(token,process.env.ACCESS_TOKEN_SECRET);
+    console.log("signup dtoken:",decodedToken);
     if(decodedToken.username===username){
         try {
             let existedUser=await User.findOne({username});
-            res.status(200).send(existedUser);
+           return res.status(200).send(existedUser);
         } catch (error) {
-            res.status(400).send({"message":"something went wrong"})
+            return res.status(400).send({"message":"something went wrong"})
         }
     }
     else{
        try {
         let existedUser=await User.findOne({username}).select("-password -email -phone -library -drafts");
-        res.status(200).send(existedUser);
+        return res.status(200).send(existedUser);
        } catch (error) {
-        res.status(400).send({"message":"something went wrong"})
+        return res.status(400).send({"message":"something went wrong"})
        }
     } 
    } 
    else{
     try {
         let existedUser=await User.findOne({username}).select("-password -email -phone -library -drafts");
-        res.status(200).send(existedUser);
+        return res.status(200).send(existedUser);
        } catch (error) {
-        res.status(400).send({"message":"something went wrong"})
+       return  res.status(400).send({"message":"something went wrong"})
        }
    }
   
