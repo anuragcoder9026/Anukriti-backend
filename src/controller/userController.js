@@ -30,8 +30,10 @@ const SignUp=async(req,res)=>{
          const accessToken=createdUser.generateAccessToken();
          const options = {
             expires: new Date(Date.now() + 24 * 60 * 60 * 1000), // 24 hours in milliseconds
-            httpOnly: true,
-            secure: true
+              httpOnly: true,
+               path: '/',
+               secure: true,
+               sameSite: 'None'
           };
           
          return res.status(200)
