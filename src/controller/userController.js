@@ -112,6 +112,11 @@ const updatePassword=async(req,res)=>{
         const user=await User.findById(decodedToken._id);
         if(!user) return res.status(400).send("user not found");
         const {password,newPassword}=req.body;
+         if(!user.password){
+         user.password=newPassword;
+         await user.save();
+         return res.status(200).send("password updated successfully.");
+        }
         let check=await user.isPasswordCorrect(password);
         if(!check){
             console.log("wrong");
