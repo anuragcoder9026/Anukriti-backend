@@ -14,7 +14,7 @@ const UserSchema = new Schema({
   summary:{type:String},
   about:{type:String},
   email: { type: String, required: true, unique: true },
-  password: { type: String, required: true },
+  password: { type: String },
   phone: { type: String},
   followers: [{ type: Schema.Types.ObjectId, ref: 'User' }],
   following: [{ type: Schema.Types.ObjectId, ref: 'User' }],
