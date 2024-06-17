@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { SignUp,cookieAuth,LogIn,LogOut, getProfile, followUser, checkFollow, getFollow, setProfile, setAbout, updatePassword, UserProfileImage, UserCoverImage,} from "../controller/userController.js";
+import { SignUp,cookieAuth,LogIn,LogOut, getProfile, followUser, checkFollow, getFollow, setProfile, setAbout, updatePassword, UserProfileImage, UserCoverImage, userTotalReads,} from "../controller/userController.js";
 import { upload } from "../middleware/multer.js";
 import { checkRating, deleteReview, getAllReview, setComments, setRating } from "../controller/reviewController.js";
 
@@ -22,5 +22,6 @@ router.route("/check-follow").get(checkFollow);
 // router.route("/check-rating").get(checkRating);
 router.route("/logout").get(LogOut);
 router.route("/get-profile/:username").get(getProfile);
+router.route("/get-total-read/:username").get(userTotalReads);
 router.route("/get-follow/:id").get(getFollow);
 export default router;
