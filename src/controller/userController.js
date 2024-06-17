@@ -398,4 +398,28 @@ const UserCoverImage=async(req,res)=>{
     }
 }
 
-export{SignUp,cookieAuth,LogIn,LogOut,getProfile,followUser,checkFollow,getFollow,setProfile,setAbout,updatePassword,UserProfileImage,UserCoverImage};
+const userTotalReads=async(req,res)=>{
+    const username=req.params.username;
+    console.log("read name:",username);
+    try {
+        // Fetch the user by their ID
+        const user = await User.findOne({username}).select('posts').lean();
+        if (!user) {
+          return res.status(400).send("user not found.");
+        }
+    
+        // Aggregate the total view count of the posts in the user's posts array
+        const result = await Post.aggregate([
+          { $match: { _id: { $in: user.posts } } },
+          { $group: { _id: null, totalViews: { $sum: '$viewCount' } } }
+        ]);
+         
+        // Extract the total view count from the aggregation result
+        const totalViewCount = result.length > 0 ? result[0].totalViews : 0;
+        console.log(totalViewCount);
+        return res.status(200).send({reads:totalViewCount});
+      } catch (error) {
+        return res.status(400).send("something went wrong.");
+      }
+}
+export{SignUp,cookieAuth,LogIn,LogOut,getProfile,followUser,checkFollow,getFollow,setProfile,setAbout,updatePassword,UserProfileImage,UserCoverImage,userTotalReads};
