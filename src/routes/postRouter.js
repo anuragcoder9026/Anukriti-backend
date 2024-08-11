@@ -1,9 +1,9 @@
 import { Router } from "express";
 
-import { PostCoverImage, addLibrary, allSeriesTitle, checkLibrary, deleteDraft, deletePost, fetchPostInfo, getAllPost, getAllSeries, getCategory, getDraft, getPostRating, getSeriesCategory, nextPost, postAuth, publishPost, saveDeaft, seriesChapter, seriesContent } from "../controller/postController.js";
+import { PostCoverImage, addLibrary, allSeriesTitle, checkLibrary, deleteDraft, deletePost, fetchPostInfo, getAllPost, getAllSeries, getCategory, getDraft, getPostRating, getSeriesCategory, nextPost, postAuth, publishPost, saveDeaft, searchPostsByTitleAndGenre,seriesChapter, seriesContent } from "../controller/postController.js";
 
 import { upload } from "../middleware/multer.js";
-import { checkLike, checkRating, deleteLike, deleteReview, getAllReview, getComment,searchPostsByTitleAndGenre, setComments, setLike, setRating } from "../controller/reviewController.js";
+import { checkLike, checkRating, deleteLike, deleteReview, getAllReview, getComment, setComments, setLike, setRating } from "../controller/reviewController.js";
 
 const router=Router();
 router.route("/publish-post").post(upload.single('coverImage'),publishPost);
