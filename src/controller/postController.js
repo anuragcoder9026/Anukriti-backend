@@ -6,6 +6,52 @@ import { Review } from "../models/reviewModel.js";
 import jwt from "jsonwebtoken"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
+
+ const searchResults = await Post.aggregate([
+      {
+        $search: {
+          index: "search-post", // Assuming the name of the search index is "default"
+          compound: {
+            should: [
+              {
+                text: {
+                  query: searchTerm,
+                  path: "title",
+                  fuzzy: {
+                    maxEdits: 2, // Allows for minor typos in the title
+                  },
+                },
+              },
+              {
+                autocomplete: {
+                  query: searchTerm,
+                  path: "categories",
+                  tokenOrder: "sequential", // Match the query to the start of the token
+                },
+              },
+            ],
+          },
+        },
+      },
+      {
+        $project: {
+          title: 1,
+          summary: 1,
+          categories: 1,
+          viewCount: 1,
+          date: 1,
+        },
+      },
+    ]);
+
+    const postIds = searchResults.map(post => post._id.toString());
+    res.status(200).json({ postIds });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: 'An error occurred while fetching the posts' });
+  }
+}
+
 const getPostRating=async(req,res)=>{
     const {postId}=req.query;
     const post=await Post.findById(postId);
@@ -592,4 +638,4 @@ const getSeriesCategory=async (req,res)=>{
   }
 }
 
-export {publishPost,fetchPostInfo,postAuth,getAllPost,getAllSeries,addLibrary,checkLibrary,deletePost,allSeriesTitle,seriesChapter,seriesContent,nextPost,saveDeaft,getDraft,deleteDraft,getCategory,getSeriesCategory,PostCoverImage,getPostRating}
+export {publishPost,fetchPostInfo,postAuth,getAllPost,getAllSeries,addLibrary,checkLibrary,deletePost,allSeriesTitle,seriesChapter,seriesContent,nextPost,saveDeaft,getDraft,deleteDraft,getCategory,getSeriesCategory,PostCoverImage,getPostRating,searchPostsByTitleAndGenre}
