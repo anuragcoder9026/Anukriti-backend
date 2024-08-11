@@ -7,7 +7,11 @@ import jwt from "jsonwebtoken"
 import { uploadOnCloudinary } from "../utils/cloudinary.js";
 import mongoose from "mongoose";
 
- const searchResults = await Post.aggregate([
+const searchPostsByTitleAndGenre = async (req, res) => {
+  try {
+    const { searchTerm } = req.query;
+
+    const searchResults = await Post.aggregate([
       {
         $search: {
           index: "search-post", // Assuming the name of the search index is "default"
@@ -51,7 +55,6 @@ import mongoose from "mongoose";
     res.status(500).json({ error: 'An error occurred while fetching the posts' });
   }
 }
-
 const getPostRating=async(req,res)=>{
     const {postId}=req.query;
     const post=await Post.findById(postId);
